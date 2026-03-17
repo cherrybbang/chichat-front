@@ -4,3 +4,5 @@ MVP : 채팅, 채팅기록 확인, 채팅내역 삭제
 추가 : 삭제한거 되돌리기 (유효기한 존재)
 
 메인컬러 : #A5F1E9 #7FE9DE #FFF6BF #FFEBAD
+
+기술 : React, typescript, tankstack, 데이터독, zustand, recoil, jotai, redux
