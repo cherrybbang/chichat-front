@@ -63,6 +63,7 @@
   place-content: center;
   place-items: center;
   flex-grow: 1;
+  border: 1px solid red;
 
   @media (max-width: 1024px) {
     padding: 32px 20px 24px;
@@ -200,4 +201,29 @@
   &:hover {
     font-size: 16px;
   }
+}
+
+/* 헤더 */
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  color: var(--text-h);
+  font-weight: bold;
+
+  .logo {
+    font-size: 24px;
+    color: var(--text-h);
+  }
+}
+
+.header-inner ul {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+}
+.header-inner ul li {
+  font-size: 20px;
+  margin-left: 24px;
 }
