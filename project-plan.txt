@@ -5,4 +5,7 @@ MVP : 채팅, 채팅기록 확인, 채팅내역 삭제
 
 메인컬러 : #A5F1E9 #7FE9DE #FFF6BF #FFEBAD
 
-기술 : React, typescript, tankstack, 데이터독, zustand, recoil, jotai, redux
+기술 : React, typescript, tankstack, 데이터독, zustand, recoil, jotai, redux, react query, context api
+
+리액트 상태관리 문서 : 
+https://devocean.sk.com/blog/techBoardDetail.do?ID=167942&boardType=techBlog#none
