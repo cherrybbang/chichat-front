@@ -1,4 +1,24 @@
+import { useState } from "react";
+import type { Message } from '../types/chat';
+
 function ChatPage() {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState("");
+
+  const handleSend = () => {
+    if (!input.trim()) return;
+
+    const newMessage: Message = {
+      id: crypto.randomUUID(),
+      content: input,
+      role: "user",
+      created_at: new Date().toISOString(),
+    };
+
+    setMessages((prev) => [...prev, newMessage]);
+    setInput("");
+  }
+
   return (
     <div className="chat-page">
       <div className="chat-header">
@@ -12,42 +32,32 @@ function ChatPage() {
       </div>
 
       <div className="chat-messages">
-        <div className="message bot">
+        {messages.map((msg) => (
+        <div key={msg.id} className={`message ${msg.role}`}>
           <div className="message-bubble">
-            <p>안녕하세요! 무엇을 도와드릴까요?</p>
-            <span className="message-time">14:30</span>
+            <p>{msg.content}</p>
+            <span className="message-time">
+              {new Date(msg.created_at).toLocaleTimeString()}
+            </span>
           </div>
         </div>
-        
-        <div className="message user">
-          <div className="message-bubble">
-            <p>안녕하세요!</p>
-            <span className="message-time">14:31</span>
-          </div>
-        </div>
-        
-        <div className="message user">
-          <div className="message-bubble">
-            <p>React에 대해 질문이 있어요</p>
-            <span className="message-time">14:31</span>
-          </div>
-        </div>
-        
-        <div className="message bot">
-          <div className="message-bubble">
-            <p>React에 대해 궁금한 점이 있으시군요! 어떤 부분이 궁금하신가요?</p>
-            <span className="message-time">14:32</span>
-          </div>
-        </div>
+        ))}
       </div>
 
       <div className="chat-input">
         <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
           type="text"
           placeholder="어떤게 궁금하신가요?"
           className="message-input"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSend();
+            }
+          }}
         />
-        <button className="send-button">전송</button>
+        <button className="send-button" onClick={handleSend}>전송</button>
       </div>
     </div>
   );
