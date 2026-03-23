@@ -256,6 +256,7 @@
   display: flex;
   flex-direction: column;
   height: 90vh;
+  width: 500px;
   max-width: 800px;
   margin: 0 auto;
   background: white;

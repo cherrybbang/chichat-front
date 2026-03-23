@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import MainPage from './components/MainPage'
 import Header from './components/Header'
-import ChatPage from './pages/ChatPage'
+import NewChat from './pages/NewChat'
 import './App.css'
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
       <section id="center">
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="/chat" element={<ChatPage />} />
+          <Route path="/chat" element={<NewChat />} />
         </Routes>
       </section>
     </Router>
