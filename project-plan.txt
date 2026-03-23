@@ -9,3 +9,16 @@ MVP : 채팅, 채팅기록 확인, 채팅내역 삭제
 
 리액트 상태관리 문서 : 
 https://devocean.sk.com/blog/techBoardDetail.do?ID=167942&boardType=techBlog#none
+
+
+A 유저 메시지 보냄
+   ↓
+Supabase DB 저장
+   ↓
+realtime 이벤트 발생
+   ↓
+ChatDetail에서 감지
+   ↓
+messages state 자동 업데이트
+   ↓
+UI 자동 렌더링

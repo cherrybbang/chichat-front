@@ -33,13 +33,13 @@ function ChatDetail() {
       .on(
         "postgres_changes",
         {
-          event: "INSERT",
+          event: "INSERT", // 메시지 추가될때만 반응
           schema: "public",
           table: "messages",
-          filter: `room_id=eq.${roomId}`,
+          filter: `room_id=eq.${roomId}`, // roomId에 해당하는 메시지만 구독
         },
         (payload) => {
-          setMessages((prev) => [...prev, payload.new as Message]);
+          setMessages((prev) => [...prev, payload.new as Message]); // 기존 메시지 + 새 메시지
         }
       )
       .subscribe();
