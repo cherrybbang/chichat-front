@@ -26,6 +26,29 @@ function ChatDetail() {
     };
 
     fetchMessages();
+
+    // realTIem 구독, 새로운 메시지 실시간 반영
+    const channel = supabase
+      .channel("messages")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "messages",
+          filter: `room_id=eq.${roomId}`,
+        },
+        (payload) => {
+          setMessages((prev) => [...prev, payload.new as Message]);
+        }
+      )
+      .subscribe();
+
+      // 컴포넌트 언마운트 시 구독 해제. cleanup.
+      return () => {
+        supabase.removeChannel(channel);
+      };
+
   }, [roomId]);
 
   // 메시지 전송
