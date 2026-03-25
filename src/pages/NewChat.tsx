@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { supabase } from '../lib/supabase';
 import { useNavigate } from "react-router-dom";
+import type { Message } from '../types/chat';
 
 function NewChat() {
   const [input, setInput] = useState("");
@@ -52,19 +53,23 @@ function NewChat() {
       </div>
 
       <div className="chat-messages">
-        <div className="message bot">
+        {messages.map((msg) => (
+        <div key={msg.id} className={`message ${msg.role}`}>
           <div className="message-bubble">
-            <p>안녕하세요! 무엇을 도와드릴까요?</p>
-            <span className="message-time">14:30</span>
+            <p>{msg.content}</p>
+            <span className="message-time">
+              {new Date(msg.created_at).toLocaleTimeString()}
+            </span>
           </div>
         </div>
-        
-        <div className="message user">
+         ))}
+
+        {/* <div className="message user">
           <div className="message-bubble">
             <p>안녕하세요!</p>
             <span className="message-time">14:31</span>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className="chat-input">
