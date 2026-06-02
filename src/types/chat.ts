@@ -4,3 +4,9 @@ export type Message = {
   role: "user" | "bot";
   created_at: string;
 };
+
+export type Room = {
+  id: string;
+  created_at: string;
+  preview?: string;
+};

@@ -20,7 +20,7 @@ function Header() {
         <nav>
           <ul className="header-nav">
             <li>
-              <Link to="/chat">채팅기록</Link>
+              <Link to="/history">채팅기록</Link>
             </li>
             <li>
               <Link to="/mypage">마이페이지</Link>

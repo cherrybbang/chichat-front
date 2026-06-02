@@ -3,6 +3,7 @@ import MainPage from './components/MainPage'
 import Header from './components/Header'
 import NewChat from './pages/NewChat'
 import ChatDetail from './pages/ChatDetail'
+import ChatList from './pages/ChatList'
 import './App.css'
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
       <section id="center">
         <Routes>
           <Route path="/" element={<MainPage />} />
+          <Route path="/history" element={<ChatList />} />
           <Route path="/chat" element={<NewChat />} />
           <Route path="/chat/:roomId" element={<ChatDetail />} />
         </Routes>
