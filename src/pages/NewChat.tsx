@@ -32,19 +32,29 @@ function NewChat() {
       return;
     }
 
-    const { error: msgError } = await supabase.from("messages").insert({
-      room_id: room.id,
-      content: input,
-      role: "user",
-    });
+    // const { error: msgError } = await supabase.from("messages").insert({
+    //   room_id: room.id,
+    //   content: input,
+    //   role: "user",
+    // });
 
-    if (msgError) {
-      console.error("메시지 저장 실패:", msgError);
-      return;
-    }
+    // if (msgError) {
+    //   console.error("메시지 저장 실패:", msgError);
+    //   return;
+    // }
 
+    // setInput("");
+    // navigate(`/chat/${room.id}`);
+
+    const userInput = input;
     setInput("");
     navigate(`/chat/${room.id}`);
+
+    fetch("http://localhost:8000/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: userInput, room_id: room.id }),
+    });
   };
 
   return (

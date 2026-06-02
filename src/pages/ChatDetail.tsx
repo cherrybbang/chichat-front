@@ -60,14 +60,23 @@ function ChatDetail() {
   const handleSend = async () => {
     if (!input.trim()) return;
 
-    const { error } = await supabase.from("messages").insert({
-      room_id: roomId,
-      content: input,
-      role: "user",
-    });
+    // const { error } = await supabase.from("messages").insert({
+    //   room_id: roomId,
+    //   content: input,
+    //   role: "user",
+    // });
 
-    if (error) { console.error("메시지 저장 실패:", error); return; }
+    // if (error) { console.error("메시지 저장 실패:", error); return; }
+    // setInput("");
+
+    const userInput = input;
     setInput("");
+
+    await fetch("http://localhost:8000/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: userInput, room_id: roomId }),
+    });
   };
 
   return (
