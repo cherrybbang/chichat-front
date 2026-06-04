@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { supabase } from '../lib/supabase';
 import type { Message } from '../types/chat';
 
@@ -20,9 +20,16 @@ const formatTime = (dateStr: string) =>
 
 function ChatDetail() {
   const { roomId } = useParams();
-  const [messages, setMessages] = useState<Message[]>([]);
+  const location = useLocation();
+  const initialMessage = (location.state as { initialMessage?: string } | null)?.initialMessage ?? null;
+
+  const [messages, setMessages] = useState<Message[]>(() =>
+    initialMessage
+      ? [{ id: "temp-init", content: initialMessage, role: "user", created_at: new Date().toISOString() }]
+      : []
+  );
   const [input, setInput] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState(!!initialMessage);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -34,7 +41,13 @@ function ChatDetail() {
         .order("created_at", { ascending: true });
 
       if (error) { console.error("메시지 불러오기 실패:", error); return; }
-      setMessages(data);
+
+      const real = data ?? [];
+      setMessages((prev) => {
+        const temps = prev.filter((m) => m.id.startsWith("temp-"));
+        const unresolvedTemps = temps.filter((t) => !real.some((r) => r.content === t.content && r.role === t.role));
+        return [...real, ...unresolvedTemps];
+      });
     };
 
     fetchMessages();
@@ -48,8 +61,20 @@ function ChatDetail() {
         filter: `room_id=eq.${roomId}`,
       }, (payload) => {
         const newMsg = payload.new as Message;
-        setMessages((prev) => [...prev, newMsg]);
-        if (newMsg.role === "bot") setIsTyping(false);
+        if (newMsg.role === "user") {
+          setMessages((prev) => {
+            const tempIdx = prev.findIndex((m) => m.id.startsWith("temp-") && m.content === newMsg.content);
+            if (tempIdx !== -1) {
+              const updated = [...prev];
+              updated[tempIdx] = newMsg;
+              return updated;
+            }
+            return [...prev, newMsg];
+          });
+        } else {
+          setMessages((prev) => [...prev, newMsg]);
+          setIsTyping(false);
+        }
       })
       .subscribe();
 
@@ -74,6 +99,13 @@ function ChatDetail() {
 
     const userInput = input;
     setInput("");
+
+    setMessages((prev) => [...prev, {
+      id: `temp-${Date.now()}`,
+      content: userInput,
+      role: "user",
+      created_at: new Date().toISOString(),
+    }]);
     setIsTyping(true);
 
     await fetch("http://localhost:8000/chat", {

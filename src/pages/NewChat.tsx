@@ -48,7 +48,7 @@ function NewChat() {
 
     const userInput = input;
     setInput("");
-    navigate(`/chat/${room.id}`);
+    navigate(`/chat/${room.id}`, { state: { initialMessage: userInput } });
 
     fetch("http://localhost:8000/chat", {
       method: "POST",
