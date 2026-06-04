@@ -403,6 +403,43 @@
   background: var(--bg-hover);
 }
 
+.room-list-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.room-list-item .room-item {
+  flex: 1;
+  min-width: 0;
+}
+
+.room-delete-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #000;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.room-delete-btn:hover {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.room-delete-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .room-avatar {
   width: 46px;
   height: 46px;

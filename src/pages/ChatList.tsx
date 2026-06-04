@@ -28,6 +28,7 @@ const formatDate = (dateStr: string) => {
 function ChatList() {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -60,6 +61,17 @@ function ChatList() {
     fetchRooms();
   }, []);
 
+  const handleDelete = async (e: React.MouseEvent, roomId: string) => {
+    e.preventDefault();
+    if (!window.confirm("이 채팅을 삭제할까요?")) return;
+
+    setDeletingId(roomId);
+    await supabase.from("messages").delete().eq("room_id", roomId);
+    await supabase.from("rooms").delete().eq("id", roomId);
+    setRooms((prev) => prev.filter((r) => r.id !== roomId));
+    setDeletingId(null);
+  };
+
   return (
     <div className="history-page">
       <div className="history-header">
@@ -85,7 +97,7 @@ function ChatList() {
       ) : (
         <ul className="room-list">
           {rooms.map((room) => (
-            <li key={room.id}>
+            <li key={room.id} className="room-list-item">
               <Link to={`/chat/${room.id}`} className="room-item">
                 <div className="room-avatar">
                   <BotIcon size={20} />
@@ -98,6 +110,16 @@ function ChatList() {
                   <p className="room-preview">{room.preview}</p>
                 </div>
               </Link>
+              <button
+                className="room-delete-btn"
+                onClick={(e) => handleDelete(e, room.id)}
+                disabled={deletingId === room.id}
+                title="채팅 삭제"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
             </li>
           ))}
         </ul>
