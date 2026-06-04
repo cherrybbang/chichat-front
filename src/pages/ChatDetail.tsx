@@ -22,6 +22,7 @@ function ChatDetail() {
   const { roomId } = useParams();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -46,7 +47,9 @@ function ChatDetail() {
         table: "messages",
         filter: `room_id=eq.${roomId}`,
       }, (payload) => {
-        setMessages((prev) => [...prev, payload.new as Message]);
+        const newMsg = payload.new as Message;
+        setMessages((prev) => [...prev, newMsg]);
+        if (newMsg.role === "bot") setIsTyping(false);
       })
       .subscribe();
 
@@ -71,12 +74,14 @@ function ChatDetail() {
 
     const userInput = input;
     setInput("");
+    setIsTyping(true);
 
     await fetch("http://localhost:8000/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: userInput, room_id: roomId }),
     });
+    setIsTyping(false);
   };
 
   return (
@@ -108,6 +113,14 @@ function ChatDetail() {
             )}
           </div>
         ))}
+        {isTyping && (
+          <div className="message bot">
+            <div className="bot-avatar"><BotIcon size={16} /></div>
+            <div className="message-bubble typing-indicator">
+              <span /><span /><span />
+            </div>
+          </div>
+        )}
         <div ref={bottomRef} />
       </div>
 
