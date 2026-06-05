@@ -59,7 +59,7 @@ function NewChat() {
 
   return (
     <div className="chat-page">
-      <div className="chat-header">
+      {/* <div className="chat-header">
         <div className="chat-avatar">
           <BotIcon size={20} />
         </div>
@@ -67,7 +67,7 @@ function NewChat() {
           <h3>ChitChat</h3>
           <span className="status">온라인</span>
         </div>
-      </div>
+      </div> */}
 
       <div className="chat-messages">
         <div className="chat-empty">

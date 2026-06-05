@@ -118,7 +118,7 @@ function ChatDetail() {
 
   return (
     <div className="chat-page">
-      <div className="chat-header">
+      {/* <div className="chat-header">
         <div className="chat-avatar">
           <BotIcon size={20} />
         </div>
@@ -126,7 +126,7 @@ function ChatDetail() {
           <h3>ChitChat</h3>
           <span className="status">온라인</span>
         </div>
-      </div>
+      </div> */}
 
       <div className="chat-messages">
         {messages.map((msg) => (
