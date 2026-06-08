@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { supabase } from '../lib/supabase';
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 const BotIcon = ({ size = 20 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 200 200" fill="none">
@@ -17,13 +18,14 @@ const BotIcon = ({ size = 20 }: { size?: number }) => (
 function NewChat() {
   const [input, setInput] = useState("");
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const handleSend = async () => {
     if (!input.trim()) return;
 
     const { data: room, error: roomError } = await supabase
       .from("rooms")
-      .insert({})
+      .insert({ user_id: user?.id })
       .select()
       .single();
 
