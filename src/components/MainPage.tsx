@@ -1,7 +1,9 @@
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 function MainPage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   return (
     <div className="main-wrap">
@@ -24,7 +26,7 @@ function MainPage() {
           궁금한 것을 해결해 보세요
         </p>
 
-        <button className="btn-primary" onClick={() => navigate('/chat')}>
+        <button className="btn-primary" onClick={() => user ? navigate('/chat') : navigate('/login')}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
             <path d="M12 5v14M5 12h14" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
           </svg>

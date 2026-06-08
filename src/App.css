@@ -69,6 +69,26 @@
   color: var(--text-1);
 }
 
+.btn-logout {
+  display: flex;
+  align-items: center;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  color: var(--text-2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn-logout:hover {
+  background: var(--bg-hover);
+  color: var(--text-1);
+}
+
 /* ===== MAIN PAGE ===== */
 
 .main-wrap {
@@ -523,4 +543,118 @@
 
 .chat-empty svg {
   opacity: 0.35;
+}
+
+/* ===== LOGIN PAGE ===== */
+
+.login-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px 36px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.login-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-1);
+  margin-bottom: 24px;
+  letter-spacing: -0.4px;
+  align-self: flex-start;
+}
+
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-2);
+}
+
+.form-group input {
+  padding: 11px 14px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text-1);
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.form-group input::placeholder {
+  color: var(--text-3);
+}
+
+.form-group input:focus {
+  border-color: var(--brand);
+  background: white;
+}
+
+.auth-error {
+  font-size: 13px;
+  color: #ef4444;
+  margin: 0;
+}
+
+.login-btn {
+  width: 100%;
+  margin-top: 4px;
+  padding: 13px;
+  font-size: 15px;
+  border-radius: 12px;
+}
+
+.toggle-auth {
+  margin-top: 18px;
+  background: none;
+  border: none;
+  font-size: 13px;
+  color: var(--text-3);
+  cursor: pointer;
+  font-family: inherit;
+  padding: 4px;
+  transition: color 0.15s;
+}
+
+.toggle-auth span {
+  color: var(--brand);
+  font-weight: 500;
+}
+
+.toggle-auth:hover {
+  color: var(--text-2);
 }

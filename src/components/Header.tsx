@@ -1,6 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 function Header() {
+  const { user, signOut } = useAuth()
+  const navigate = useNavigate()
+
+  async function handleSignOut() {
+    await signOut()
+    navigate('/login')
+  }
+
   return (
     <header className="header">
       <div className="header-inner">
@@ -19,12 +28,15 @@ function Header() {
 
         <nav>
           <ul className="header-nav">
-            <li>
-              <Link to="/history">채팅기록</Link>
-            </li>
-            <li>
-              <Link to="/mypage">마이페이지</Link>
-            </li>
+            {user ? (
+              <>
+                <li><Link to="/history">채팅기록</Link></li>
+                <li><Link to="/mypage">마이페이지</Link></li>
+                <li><button className="btn-logout" onClick={handleSignOut}>로그아웃</button></li>
+              </>
+            ) : (
+              <li><Link to="/login">로그인</Link></li>
+            )}
           </ul>
         </nav>
       </div>
