@@ -2,11 +2,23 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 
+const ERROR_MAP: Record<string, string> = {
+  'Invalid login credentials': '이메일 또는 비밀번호가 올바르지 않거나, 계정이 존재하지 않습니다.',
+  'Email not confirmed': '이메일 인증이 필요합니다. 이메일함을 확인해주세요.',
+  'User already registered': '이미 가입된 이메일입니다.',
+  'Password should be at least 6 characters': '비밀번호는 6자 이상이어야 합니다.',
+}
+
+function toKoreanError(msg: string) {
+  return ERROR_MAP[msg] ?? msg
+}
+
 function Login() {
   const [isSignUp, setIsSignUp] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [message, setMessage] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const { signIn, signUp } = useAuth()
   const navigate = useNavigate()
@@ -14,16 +26,27 @@ function Login() {
   async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault()
     setError(null)
+    setMessage(null)
     setLoading(true)
 
-    const { error } = isSignUp
-      ? await signUp(email, password)
-      : await signIn(email, password)
-
-    if (error) {
-      setError(error)
+    if (isSignUp) {
+      const { error, needsConfirmation } = await signUp(email, password)
+      if (error) {
+        setError(toKoreanError(error))
+      } else if (needsConfirmation) {
+        setMessage('가입 확인 이메일을 보냈습니다. 이메일 인증 후 로그인해주세요.')
+        setIsSignUp(false)
+        setPassword('')
+      } else {
+        navigate('/')
+      }
     } else {
-      navigate('/')
+      const { error } = await signIn(email, password)
+      if (error) {
+        setError(toKoreanError(error))
+      } else {
+        navigate('/')
+      }
     }
 
     setLoading(false)
@@ -74,6 +97,7 @@ function Login() {
           </div>
 
           {error && <p className="auth-error">{error}</p>}
+          {message && <p className="auth-message">{message}</p>}
 
           <button type="submit" className="btn-primary login-btn" disabled={loading}>
             {loading ? '처리 중...' : isSignUp ? '회원가입' : '로그인'}
