@@ -41,6 +41,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
+    // AuthContext.Provider 컨텍스트에 user, session, loading, signIn, signUp, signOut 값을 담아서 하위 컴포넌트들이 사용할 수 있게 함.
     <AuthContext.Provider value={{ user, session, loading, signIn, signUp, signOut }}>
       {children}
     </AuthContext.Provider>
