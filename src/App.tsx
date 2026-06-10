@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { AuthProvider } from './contexts/AuthContext'
+import { AuthProvider } from './contexts/AuthProvider'
 import MainPage from './components/MainPage'
 import Header from './components/Header'
 import NewChat from './pages/NewChat'

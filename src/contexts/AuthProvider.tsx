@@ -1,18 +1,7 @@
-/* eslint-disable react-refresh/only-export-components */
-import { createContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Session, User } from '@supabase/supabase-js'
 import { supabase } from '../lib/supabase'
-
-interface AuthContextType {
-  user: User | null
-  session: Session | null
-  loading: boolean
-  signIn: (email: string, password: string) => Promise<{ error: string | null }>
-  signUp: (email: string, password: string) => Promise<{ error: string | null; needsConfirmation: boolean }>
-  signOut: () => Promise<void>
-}
-
-export const AuthContext = createContext<AuthContextType | null>(null)
+import { AuthContext } from './AuthContext'
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
