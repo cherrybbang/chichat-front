@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth"; 
 import { supabase } from '../lib/supabase';
 import type { Message } from '../types/chat';
 
@@ -21,6 +22,7 @@ const formatTime = (dateStr: string) =>
 function ChatDetail() {
   const { roomId } = useParams();
   const location = useLocation();
+  const { session } = useAuth();
   const initialMessage = (location.state as { initialMessage?: string } | null)?.initialMessage ?? null;
 
   const [messages, setMessages] = useState<Message[]>(() =>
@@ -110,7 +112,10 @@ function ChatDetail() {
 
     await fetch("http://localhost:8000/chat", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${session?.access_token}`,
+      },
       body: JSON.stringify({ message: userInput, room_id: roomId }),
     });
     setIsTyping(false);
