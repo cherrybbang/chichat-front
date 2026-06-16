@@ -18,7 +18,7 @@ const BotIcon = ({ size = 20 }: { size?: number }) => (
 function NewChat() {
   const [input, setInput] = useState("");
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, session } = useAuth();
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -54,7 +54,10 @@ function NewChat() {
 
     fetch("http://localhost:8000/chat", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${session?.access_token}`,
+      },
       body: JSON.stringify({ message: userInput, room_id: room.id }),
     });
   };
