@@ -52,7 +52,7 @@ function NewChat() {
     setInput("");
     navigate(`/chat/${room.id}`, { state: { initialMessage: userInput } });
 
-    fetch("http://localhost:8000/chat", {
+    fetch(`${import.meta.env.VITE_API_URL}/chat`, {
       method: "POST",
       headers: { 
         "Content-Type": "application/json",

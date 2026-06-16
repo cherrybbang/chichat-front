@@ -110,7 +110,7 @@ function ChatDetail() {
     }]);
     setIsTyping(true);
 
-    await fetch("http://localhost:8000/chat", {
+    await fetch(`${import.meta.env.VITE_API_URL}/chat`, {
       method: "POST",
       headers: { 
         "Content-Type": "application/json",
